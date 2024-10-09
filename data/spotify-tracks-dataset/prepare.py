@@ -18,16 +18,30 @@ if __name__ == "__main__":
     with open(path("data/spotify-tracks-dataset/raw.csv"), "r") as file:
         df = pd.read_csv(file)
 
-    # Artist ids
+    # Get allowed artists
+    with open(path("data/spotify-top-artists-by-monthly-listeners/raw.csv"), "r") as file:
+        df_temp = pd.read_csv(file)
+    allowed_artists = list(df_temp["Artist"])
+
+    # Filter out all songs with disallowed artists
+    def filter_artists(artists_str):
+        artists = [x.strip() for x in str(artists_str).split(";")]
+        for artist in artists:
+            if artist not in allowed_artists:
+                return False
+        return True
+    criteria = df["artists"].apply(filter_artists)
+    df = df[criteria]
+
+    # Track ids
     current_id = 0
     track_ids = {}
-    def get_or_create(artist: str):
+    def get_or_create(track: str):
         global current_id, track_ids
-        if not track_ids.get(artist):
-            track_ids.update({artist: current_id})
+        if not track_ids.get(track):
+            track_ids.update({track: current_id})
             current_id += 1
-        return track_ids.get(artist)
-
+        return track_ids.get(track)
 
     # Add id column
     df["id"] = df["track_id"].map(get_or_create)
