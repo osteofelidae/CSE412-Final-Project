@@ -51,3 +51,10 @@ if __name__ == "__main__":
 
     # Save as csv
     df.to_csv(path("data/spotify-tracks-dataset/prepared.csv"))
+
+    # Hacky way of removing first unlabelled column
+    with open(path("data/spotify-tracks-dataset/prepared.csv"), "r") as file:
+        lines = [line.strip() for line in file.readlines()]
+
+    with open(path("data/spotify-tracks-dataset/prepared.csv"), "w") as file:
+        file.writelines([",".join(line.split(",", 1)[1:])+"\n" for line in lines])
