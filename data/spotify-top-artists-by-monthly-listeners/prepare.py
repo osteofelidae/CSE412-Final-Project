@@ -28,9 +28,15 @@ if __name__ == "__main__":
             current_id += 1
         return artist_ids.get(artist)
 
-
     # Add id column
     df["id"] = df["Artist"].map(get_or_create)
+
+    # Reformat various columns to numbers
+    columns_to_map = ["Listeners", "Daily Trend", "PkListeners"]
+    def to_number(s):
+        return int(s.replace(",", "").strip())
+    for col in columns_to_map:
+        df[col] = df[col].map(to_number)
 
     # Rearrange columns
     df = df[["id", "Artist", "Listeners", "Daily Trend", "Peak", "PkListeners"]]
