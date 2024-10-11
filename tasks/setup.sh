@@ -7,5 +7,5 @@ source .venv/bin/activate
 export PYTHONPATH="."
 
 # Set Postgres stuff
-export PGPORT=5432
+export PGPORT=8888
 export PGHOST=/tmp
