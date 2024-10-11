@@ -39,14 +39,21 @@ if __name__ == "__main__":
         df[col] = df[col].map(to_number)
 
     # Rearrange columns
-    df = df[["id", "Artist", "Listeners", "Daily Trend", "Peak", "PkListeners"]]
+    df = df[["id", "Artist", "Listeners", "PkListeners"]]
+
+    df.rename(columns={
+        "id": "artist_id",
+        "Artist": "Name",
+        "Listeners": "ListenersCount",
+        "PkListeners": "PeakListeners"
+    }, inplace=True)
 
     # Save as csv
-    df.to_csv(path("data/spotify-top-artists-by-monthly-listeners/prepared.csv"))
+    df.to_csv(path("data/spotify-top-artists-by-monthly-listeners/Artist.csv"))
 
     # Hacky way of removing first unlabelled column
-    with open(path("data/spotify-top-artists-by-monthly-listeners/prepared.csv"), "r") as file:
+    with open(path("data/spotify-top-artists-by-monthly-listeners/Artist.csv"), "r") as file:
         lines = [line.strip() for line in file.readlines()]
 
-    with open(path("data/spotify-top-artists-by-monthly-listeners/prepared.csv"), "w") as file:
+    with open(path("data/spotify-top-artists-by-monthly-listeners/Artist.csv"), "w") as file:
         file.writelines([",".join(line.split(",", 1)[1:])+"\n" for line in lines])
