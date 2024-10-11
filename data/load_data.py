@@ -22,5 +22,6 @@ if __name__ == "__main__":
     conn = psycopg2.connect(f"dbname=CSE412 user={username}")
     cur = conn.cursor()
 
-    # HAMADA - EXAMPLE COMMAND
-    cur.execute("SELECT * FROM USERS;");
+    # Execute commands
+    with open(path("data/load_data.sql"), "r") as file:
+        cur.execute(file.read().replace("$PROJECTPATH", str(path(""))));
