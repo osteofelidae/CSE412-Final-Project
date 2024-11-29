@@ -1,8 +1,10 @@
 import './App.css'
 import * as React from 'react';
 import { useEffect } from 'react';
-import { Box, TextField, InputLabel, FormControl, Select } from '@mui/material'
+import { Box, TextField, InputLabel, FormControl, Select, Button, IconButton, Dialog, DialogContent, DialogTitle, Slide, Typography } from '@mui/material'
 import { ScatterChart } from '@mui/x-charts/ScatterChart';
+import { TransitionProps } from '@mui/material/transitions';
+import CloseIcon from '@mui/icons-material/Close';
 
 const data = [
   {
@@ -191,10 +193,20 @@ const artists = [
   'Artist 20',
 ];
 
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement<any, any>;
+  },
+  ref: React.Ref<unknown>,
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 function App() {
-  const [artistName, setArtistName] = React.useState<string[]>([]);
+  const [artistName, setArtistName] = React.useState<string[]>([artists[0]]);
   const [searchQuery, setSearchQuery] = React.useState<string>('');
   const [selectSize, setSelectSize] = React.useState(10);
+  const [open, setOpen] = React.useState(false);
 
   const filteredArtists = artists.filter((name) =>
     name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -209,6 +221,14 @@ function App() {
       }
     }
     setArtistName(value);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   useEffect(() => {
@@ -256,6 +276,65 @@ function App() {
               ))}
             </Select>
           </FormControl>
+          <Button variant="outlined" onClick={handleOpen}>
+            Open Artist View
+          </Button>
+          <Dialog
+            fullWidth
+            maxWidth="xl"
+            open={open}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={handleClose}
+            aria-describedby="alert-dialog-slide-description"
+          >
+            <DialogTitle>{artistName}</DialogTitle>
+            <IconButton
+              aria-label="close"
+              onClick={handleClose}
+              sx={(theme) => ({
+                position: 'absolute',
+                right: 8,
+                top: 8,
+                color: theme.palette.grey[500],
+              })}
+            >
+              <CloseIcon />
+            </IconButton>
+            <DialogContent>
+
+            <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+              <Box sx={{ height: '66vh', width: '25%', m: 1, p: 2, display: 'flex', flexDirection: 'column' }}>
+                <Typography>
+                  <strong>Artist Name:</strong> {artistName} <br />
+                  <strong>Listeners Count:</strong> 123,456,789 <br /><br />
+                  <strong>Top Song:</strong> Song 1<br />
+                  <strong>Genre:</strong> Pop<br /><br />
+                  <strong>Video URL:</strong> https://corndog.io/<br />
+                  <strong>View Count:</strong> 12,345<br />
+                  <strong>Like Count:</strong> 67,890<br />
+                </Typography>
+              </Box>
+              <Box sx={{ border: '1px solid grey', width: '75%', m: 1, p: 2 }}>
+                <ScatterChart sx={{width: '100%', height: '100%'}}
+                  xAxis={[{ id: 'x-axis', label: '# of Spotify Listeners' }]}
+                  yAxis={[{ id: 'y-axis', label: '# of YouTube Views (Top Song)' }]}
+                  series={[
+                    {
+                      label: 'Series A',
+                      data: data.map((v) => ({ x: v.x1, y: v.y1, id: v.id })),
+                    },
+                    {
+                      label: 'Series B',
+                      data: data.map((v) => ({ x: v.x1, y: v.y2, id: v.id })),
+                    },
+                  ]}
+                />
+              </Box>
+            </Box>
+
+            </DialogContent>
+          </Dialog>
         </Box>
         <Box sx={{ border: '1px solid grey', width: '75%', m: 1, p: 2 }}>
           <ScatterChart sx={{width: '100%', height: '100%'}}
