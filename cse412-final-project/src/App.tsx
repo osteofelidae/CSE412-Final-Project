@@ -193,7 +193,13 @@ const artists = [
 
 function App() {
   const [artistName, setArtistName] = React.useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = React.useState<string>('');
   const [selectSize, setSelectSize] = React.useState(10);
+
+  const filteredArtists = artists.filter((name) =>
+    name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const handleArtistName = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { options } = event.target;
     const value: string[] = [];
@@ -223,7 +229,10 @@ function App() {
     <>
       <Box sx={{ height: '100vh', width: '100vw', backgroundColor: 'lightgrey', display: 'flex', flexDirection: 'row' }}>
         <Box sx={{ width: '25%', m: 1, p: 2, display: 'flex', flexDirection: 'column' }}>
-          <TextField fullWidth label="Search" variant="outlined"/>
+          <TextField fullWidth label="Search" variant="outlined"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
           <FormControl fullWidth size='medium' sx={{ height: '100%', mt: 2}}>
             <InputLabel shrink htmlFor="select-multiple-native">
               Artists
@@ -240,7 +249,7 @@ function App() {
               }}
               sx={{ '& option': { padding: '10px 5px' } }}
             >
-              {artists.map((name) => (
+              {filteredArtists.map((name) => (
                 <option key={name} value={name}>
                   {name}
                 </option>
@@ -250,6 +259,8 @@ function App() {
         </Box>
         <Box sx={{ border: '1px solid grey', width: '75%', m: 1, p: 2 }}>
           <ScatterChart sx={{width: '100%', height: '100%'}}
+            xAxis={[{ id: 'x-axis', label: '# of Spotify Listeners' }]}
+            yAxis={[{ id: 'y-axis', label: '# of YouTube Views (Top Song)' }]}
             series={[
               {
                 label: 'Series A',
