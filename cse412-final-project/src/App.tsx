@@ -1,5 +1,7 @@
 import './App.css'
-import { Box, TextField, Typography, List, ListItem, ListItemText } from '@mui/material'
+import * as React from 'react';
+import { useEffect } from 'react';
+import { Box, TextField, InputLabel, FormControl, Select } from '@mui/material'
 import { ScatterChart } from '@mui/x-charts/ScatterChart';
 
 const data = [
@@ -166,27 +168,85 @@ const data = [
   },
 ];
 
+const artists = [
+  'Artist 1',
+  'Artist 2',
+  'Artist 3',
+  'Artist 4',
+  'Artist 5',
+  'Artist 6',
+  'Artist 7',
+  'Artist 8',
+  'Artist 9',
+  'Artist 10',
+  'Artist 11',
+  'Artist 12',
+  'Artist 13',
+  'Artist 14',
+  'Artist 15',
+  'Artist 16',
+  'Artist 17',
+  'Artist 18',
+  'Artist 19',
+  'Artist 20',
+];
+
 function App() {
+  const [artistName, setArtistName] = React.useState<string[]>([]);
+  const [selectSize, setSelectSize] = React.useState(10);
+  const handleArtistName = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { options } = event.target;
+    const value: string[] = [];
+    for (let i = 0, l = options.length; i < l; i += 1) {
+      if (options[i].selected) {
+        value.push(options[i].value);
+      }
+    }
+    setArtistName(value);
+  };
+
+  useEffect(() => {
+    const resize = () => {
+      const optionHeight = 40;
+      const maxHeight = window.innerHeight - 150;
+      setSelectSize(Math.floor(maxHeight / optionHeight));
+    };
+
+    resize();
+    window.addEventListener('resize', resize);
+    return () => {
+      window.removeEventListener('resize', resize);
+    };
+  }, []);
+
   return (
     <>
       <Box sx={{ height: '100vh', width: '100vw', backgroundColor: 'lightgrey', display: 'flex', flexDirection: 'row' }}>
-        <Box sx={{ width: '25%', m: 1, p: 2 }}>
-          <TextField fullWidth label="Search" variant="outlined" />
-          <Box sx={{ border: '1px solid grey', p: 2 }}>
-            <Typography variant="h6">Results</Typography>
-            <List>
-              <ListItem>
-                <ListItemText primary="Result 1" />
-              </ListItem>
-              <ListItem>
-                <ListItemText primary="Result 2" />
-              </ListItem>
-              <ListItem>
-                <ListItemText primary="Result 3" />
-              </ListItem>
-              {/* Add more results as needed */}
-            </List>
-          </Box>
+        <Box sx={{ width: '25%', m: 1, p: 2, display: 'flex', flexDirection: 'column' }}>
+          <TextField fullWidth label="Search" variant="outlined"/>
+          <FormControl fullWidth size='medium' sx={{ height: '100%', mt: 2}}>
+            <InputLabel shrink htmlFor="select-multiple-native">
+              Artists
+            </InputLabel>
+            <Select<string[]>
+              multiple
+              native
+              value={artistName}
+              onChange={handleArtistName}
+              label="Artists"
+              inputProps={{
+                id: 'select-multiple-native',
+                size: selectSize
+              }}
+              sx={{ '& option': { padding: '10px 5px' } }}
+            >
+              {artists.map((name) => (
+                <option key={name} value={name}>
+                  {name}
+                </option>
+              ))}
+            </Select>
+          </FormControl>
         </Box>
         <Box sx={{ border: '1px solid grey', width: '75%', m: 1, p: 2 }}>
           <ScatterChart sx={{width: '100%', height: '100%'}}
