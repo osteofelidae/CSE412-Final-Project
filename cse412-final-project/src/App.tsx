@@ -5,6 +5,7 @@ import { Box, TextField, InputLabel, FormControl, Select, Button, IconButton, Di
 import { ScatterChart } from '@mui/x-charts/ScatterChart';
 import { TransitionProps } from '@mui/material/transitions';
 import CloseIcon from '@mui/icons-material/Close';
+import { axisClasses } from '@mui/x-charts';
 
 const data = [
   {
@@ -316,9 +317,9 @@ function App() {
                 </Typography>
               </Box>
               <Box sx={{ border: '1px solid grey', width: '75%', m: 1, p: 2 }}>
-                <ScatterChart sx={{width: '100%', height: '100%'}}
-                  xAxis={[{ id: 'x-axis', label: '# of Spotify Listeners' }]}
-                  yAxis={[{ id: 'y-axis', label: '# of YouTube Views (Top Song)' }]}
+                <ScatterChart sx={{width: '100%', height: '100%', [`& .${axisClasses.left} .${axisClasses.label}`]: { transform: 'translateX(-12px)' }}}
+                  xAxis={[{ id: 'x-axis', label: '# of YouTube Views' }]}
+                  yAxis={[{ id: 'y-axis', label: '# of YouTube Likes' }]}
                   series={[
                     {
                       label: 'Series A',
@@ -337,7 +338,7 @@ function App() {
           </Dialog>
         </Box>
         <Box sx={{ border: '1px solid grey', width: '75%', m: 1, p: 2 }}>
-          <ScatterChart sx={{width: '100%', height: '100%'}}
+          <ScatterChart sx={{width: '100%', height: '100%', [`& .${axisClasses.left} .${axisClasses.label}`]: { transform: 'translateX(-12px)' }}}
             xAxis={[{ id: 'x-axis', label: '# of Spotify Listeners' }]}
             yAxis={[{ id: 'y-axis', label: '# of YouTube Views (Top Song)' }]}
             series={[
