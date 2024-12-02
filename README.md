@@ -1,6 +1,6 @@
 # TODO TITLE
 
-## Usage
+## Project Usage
 ### Setup
 One-time setup:
 ```bash
@@ -31,3 +31,17 @@ After you are done, run these:
 ```bash
 ./tasks/stop_db.sh  # Stop db
 ```
+
+## Web App Usage
+### Setup
+```bash
+cd cse412-final-project
+npm install
+```
+This should move you into the web app directory and install dependency packages. If there are any additional prompts I forgot, follow them.
+
+### Run Dev
+```bash
+npm run dev
+```
+Run the web app from the CLI, then click on the localhost link and open it in your web browser.
