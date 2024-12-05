@@ -6,8 +6,12 @@ import { ScatterChart } from '@mui/x-charts/ScatterChart';
 import { TransitionProps } from '@mui/material/transitions';
 import CloseIcon from '@mui/icons-material/Close';
 import { axisClasses } from '@mui/x-charts';
+<<<<<<< Updated upstream
 import { SelectChangeEvent } from '@mui/material';
 
+=======
+import { SelectChangeEvent } from '@mui/material/Select';
+>>>>>>> Stashed changes
 
 const data = [
   {
@@ -216,8 +220,12 @@ function App() {
   );
 
   const handleArtistName = (event: SelectChangeEvent<string[]>) => {
+<<<<<<< Updated upstream
     const { value } = event.target;
     setArtistName(value as string[]);
+=======
+    setArtistName(event.target);
+>>>>>>> Stashed changes
   };
 
   const handleOpen = () => {
