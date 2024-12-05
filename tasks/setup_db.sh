@@ -1,4 +1,4 @@
-#/!bin/bash
+#!/bin/bash
 initdb "./db"
 export PGPORT=8888
 export PGHOST=/tmp

@@ -1,1 +1,1 @@
-/Library/PostgreSQL/16/bin/postgres "-D" "db" "-k" "/tmp"
+/usr/lib/postgresql/14/bin/postgres "-D" "./db" "-k" "/tmp"
