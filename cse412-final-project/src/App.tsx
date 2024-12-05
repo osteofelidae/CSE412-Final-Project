@@ -6,6 +6,8 @@ import { ScatterChart } from '@mui/x-charts/ScatterChart';
 import { TransitionProps } from '@mui/material/transitions';
 import CloseIcon from '@mui/icons-material/Close';
 import { axisClasses } from '@mui/x-charts';
+import { SelectChangeEvent } from '@mui/material';
+
 
 const data = [
   {
@@ -213,15 +215,9 @@ function App() {
     name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handleArtistName = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const { options } = event.target;
-    const value: string[] = [];
-    for (let i = 0, l = options.length; i < l; i += 1) {
-      if (options[i].selected) {
-        value.push(options[i].value);
-      }
-    }
-    setArtistName(value);
+  const handleArtistName = (event: SelectChangeEvent<string[]>) => {
+    const { value } = event.target;
+    setArtistName(value as string[]);
   };
 
   const handleOpen = () => {
