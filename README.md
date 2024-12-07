@@ -19,6 +19,11 @@ source tasks/setup.sh  # Set some envs
 ./tasks/start_db.sh  # Start db
 ```
 
+## RUNNING THE THING
+```bash
+python3 server.py
+```
+
 ### Running files
 Obviously, running files are done like so:
 ```bash
