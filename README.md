@@ -45,3 +45,64 @@ This should move you into the web app directory and install dependency packages.
 npm run dev
 ```
 Run the web app from the CLI, then click on the localhost link and open it in your web browser.
+
+## API endpoints
+* `/api/artists/list`: Gets names and ids of all artists
+```json
+{
+    "data": [
+        {
+            "artist_id": 1229,
+            "name": "Alice In Chains"
+        },
+        {
+            "artist_id": 461,
+            "name": "Amy Winehouse"
+        }
+    ]
+}
+```
+* `/api/artists/stats`: Gets stats of top song for each artists
+```json
+{
+    "data": [
+        {
+            "listeners_count": 5200736,
+            "views_count": 5200736
+        },
+        {
+            "listeners_count": 5836676,
+            "views_count": 5836676
+        }
+    ]
+}
+```
+* `/api/artists/stats?artist_id=$ARTIST_ID`: Gets stats of top song for a specific artist
+```json
+{
+    "data": [
+        {
+            "listeners_count": 5200736,
+            "views_count": 5200736
+        },
+        {
+            "listeners_count": 5836676,
+            "views_count": 5836676
+        }
+    ]
+}
+```
+* `/api/artists?artist_id=$ARTIST_ID`: Gets stats of top song for a specific artist
+```json
+{
+    "data": {
+	    "genre": "indie-pop",
+	    "like_count": 188760.0,
+	    "listeners_count": 6683006,
+	    "name": "Cavetown",
+	    "view_count": 14167793.0,
+	    "youtube_title": "Meteor Shower",
+	    "youtube_url": "https://www.youtube.com/watch?v=vxG1HlT8n-I"
+	}
+}
+```
